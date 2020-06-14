@@ -1,23 +1,23 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6faf153f876cc90727b6a3913a8ac9aa",
+    "revision": "933c6279b990d8736a86375d0c579a58",
     "url": "/takemewithyou-spacex/index.html"
   },
   {
-    "revision": "f703aaec3bad21a2d9c1",
+    "revision": "84b3a6e240b18951c86b",
     "url": "/takemewithyou-spacex/static/css/main.13f9e700.chunk.css"
   },
   {
-    "revision": "c778e6f8bcfa4285f927",
-    "url": "/takemewithyou-spacex/static/js/2.1a8cd3b3.chunk.js"
+    "revision": "32aa65d0a3b2add3aa87",
+    "url": "/takemewithyou-spacex/static/js/2.309dc879.chunk.js"
   },
   {
     "revision": "6ef718eeb39c03c0fcdab1a60b0c6b00",
-    "url": "/takemewithyou-spacex/static/js/2.1a8cd3b3.chunk.js.LICENSE.txt"
+    "url": "/takemewithyou-spacex/static/js/2.309dc879.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "f703aaec3bad21a2d9c1",
-    "url": "/takemewithyou-spacex/static/js/main.f3f17146.chunk.js"
+    "revision": "84b3a6e240b18951c86b",
+    "url": "/takemewithyou-spacex/static/js/main.29a50c27.chunk.js"
   },
   {
     "revision": "f2cb4e47a1864be13ff5",
@@ -30,6 +30,10 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
     "revision": "fa285ec59f6aeb25f7c3a3e831efdd07",
     "url": "/takemewithyou-spacex/static/media/dark2.fa285ec5.png"
+  },
+  {
+    "revision": "7495107be4d8ba7d7d12c39d931a25b1",
+    "url": "/takemewithyou-spacex/static/media/darkinvert.7495107b.png"
   },
   {
     "revision": "5d5d9eefa31e5e13a6610d9fa7a283bb",
