@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/takemewithyou-spacex/static/css/main.13f9e700.chunk.css",
+    "main.js": "/takemewithyou-spacex/static/js/main.f3f17146.chunk.js",
+    "main.js.map": "/takemewithyou-spacex/static/js/main.f3f17146.chunk.js.map",
+    "runtime-main.js": "/takemewithyou-spacex/static/js/runtime-main.2c550c27.js",
+    "runtime-main.js.map": "/takemewithyou-spacex/static/js/runtime-main.2c550c27.js.map",
+    "static/js/2.1a8cd3b3.chunk.js": "/takemewithyou-spacex/static/js/2.1a8cd3b3.chunk.js",
+    "static/js/2.1a8cd3b3.chunk.js.map": "/takemewithyou-spacex/static/js/2.1a8cd3b3.chunk.js.map",
+    "index.html": "/takemewithyou-spacex/index.html",
+    "precache-manifest.c003c25057c66941bbce3013700dcae2.js": "/takemewithyou-spacex/precache-manifest.c003c25057c66941bbce3013700dcae2.js",
+    "service-worker.js": "/takemewithyou-spacex/service-worker.js",
+    "static/css/main.13f9e700.chunk.css.map": "/takemewithyou-spacex/static/css/main.13f9e700.chunk.css.map",
+    "static/js/2.1a8cd3b3.chunk.js.LICENSE.txt": "/takemewithyou-spacex/static/js/2.1a8cd3b3.chunk.js.LICENSE.txt",
+    "static/media/dark.png": "/takemewithyou-spacex/static/media/dark.5f515653.png",
+    "static/media/dark2.png": "/takemewithyou-spacex/static/media/dark2.fa285ec5.png",
+    "static/media/logo.svg": "/takemewithyou-spacex/static/media/logo.5d5d9eef.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.2c550c27.js",
+    "static/js/2.1a8cd3b3.chunk.js",
+    "static/css/main.13f9e700.chunk.css",
+    "static/js/main.f3f17146.chunk.js"
+  ]
+}
