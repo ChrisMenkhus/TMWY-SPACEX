@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/takemewithyou-spacex/static/css/main.13f9e700.chunk.css",
-    "main.js": "/takemewithyou-spacex/static/js/main.29a50c27.chunk.js",
-    "main.js.map": "/takemewithyou-spacex/static/js/main.29a50c27.chunk.js.map",
-    "runtime-main.js": "/takemewithyou-spacex/static/js/runtime-main.2c550c27.js",
-    "runtime-main.js.map": "/takemewithyou-spacex/static/js/runtime-main.2c550c27.js.map",
-    "static/js/2.309dc879.chunk.js": "/takemewithyou-spacex/static/js/2.309dc879.chunk.js",
-    "static/js/2.309dc879.chunk.js.map": "/takemewithyou-spacex/static/js/2.309dc879.chunk.js.map",
-    "index.html": "/takemewithyou-spacex/index.html",
-    "precache-manifest.c8909c58c6eb6fb9e528de10bed75e0b.js": "/takemewithyou-spacex/precache-manifest.c8909c58c6eb6fb9e528de10bed75e0b.js",
-    "service-worker.js": "/takemewithyou-spacex/service-worker.js",
-    "static/css/main.13f9e700.chunk.css.map": "/takemewithyou-spacex/static/css/main.13f9e700.chunk.css.map",
-    "static/js/2.309dc879.chunk.js.LICENSE.txt": "/takemewithyou-spacex/static/js/2.309dc879.chunk.js.LICENSE.txt",
-    "static/media/dark.png": "/takemewithyou-spacex/static/media/dark.5f515653.png",
-    "static/media/dark2.png": "/takemewithyou-spacex/static/media/dark2.fa285ec5.png",
-    "static/media/darkinvert.png": "/takemewithyou-spacex/static/media/darkinvert.7495107b.png",
-    "static/media/logo.svg": "/takemewithyou-spacex/static/media/logo.5d5d9eef.svg"
+    "main.css": "/TMWY-SPACEX/static/css/main.13f9e700.chunk.css",
+    "main.js": "/TMWY-SPACEX/static/js/main.be24c397.chunk.js",
+    "main.js.map": "/TMWY-SPACEX/static/js/main.be24c397.chunk.js.map",
+    "runtime-main.js": "/TMWY-SPACEX/static/js/runtime-main.a6cb4cba.js",
+    "runtime-main.js.map": "/TMWY-SPACEX/static/js/runtime-main.a6cb4cba.js.map",
+    "static/js/2.446306a9.chunk.js": "/TMWY-SPACEX/static/js/2.446306a9.chunk.js",
+    "static/js/2.446306a9.chunk.js.map": "/TMWY-SPACEX/static/js/2.446306a9.chunk.js.map",
+    "index.html": "/TMWY-SPACEX/index.html",
+    "precache-manifest.b0c2217e86087b2f5f6da6bbde517ea9.js": "/TMWY-SPACEX/precache-manifest.b0c2217e86087b2f5f6da6bbde517ea9.js",
+    "service-worker.js": "/TMWY-SPACEX/service-worker.js",
+    "static/css/main.13f9e700.chunk.css.map": "/TMWY-SPACEX/static/css/main.13f9e700.chunk.css.map",
+    "static/js/2.446306a9.chunk.js.LICENSE.txt": "/TMWY-SPACEX/static/js/2.446306a9.chunk.js.LICENSE.txt",
+    "static/media/dark.png": "/TMWY-SPACEX/static/media/dark.5f515653.png",
+    "static/media/dark2.png": "/TMWY-SPACEX/static/media/dark2.fa285ec5.png",
+    "static/media/darkinvert.png": "/TMWY-SPACEX/static/media/darkinvert.7495107b.png",
+    "static/media/logo.svg": "/TMWY-SPACEX/static/media/logo.5d5d9eef.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.2c550c27.js",
-    "static/js/2.309dc879.chunk.js",
+    "static/js/runtime-main.a6cb4cba.js",
+    "static/js/2.446306a9.chunk.js",
     "static/css/main.13f9e700.chunk.css",
-    "static/js/main.29a50c27.chunk.js"
+    "static/js/main.be24c397.chunk.js"
   ]
 }
