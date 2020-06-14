@@ -6,8 +6,13 @@ import IosSearch from 'react-ionicons/lib/IosSearch'
 import IosMenu from 'react-ionicons/lib/IosMenu'
 import LogoYoutube from 'react-ionicons/lib/LogoYoutube'
 import IosClose from 'react-ionicons/lib/IosClose'
+import IosSync from 'react-ionicons/lib/IosSync'
+
+
 import bgimg from './dark.png'
 import bgimg2 from './dark2.png'
+import bgimginvert from './darkinvert.png'
+
 import Typist from 'react-typist';
 
 
@@ -26,8 +31,11 @@ const Style = styled.div`
   .content {
     display: flex; flex-direction: column;
     width: 100%;
-    background-color: #EFEFEF;
+    background-color: #ECECEC;
     background-image: linear-gradient(to bottom, transparent 20%, #E2E2E2 50%);
+    /*background-image: url(${bgimginvert});*/
+    background-size: cover;
+    background-position: left bottom;
     min-height: 100vh;
     height: 100%;
 
@@ -41,6 +49,18 @@ const Style = styled.div`
       /*background-color: black;*/
     }
   }
+
+  .loadingicon {
+      animation: rotation 2s infinite linear;
+      @keyframes rotation {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+    }
 `;
 
 const SearchContainer = styled.div`
@@ -51,19 +71,22 @@ const SearchContainer = styled.div`
   padding-top: 1rem;
 
 
-  @media only screen and (max-width: 800px) {
-    padding-top: 4rem;
+  @media only screen and (max-width: 600px) {
+    padding-top: 5rem;
   }
 
   .topbar {
+    width: 100%;
     display: flex; flex-direction: row;
-    margin: auto 1rem;
+    margin: auto;
+    margin-bottom: 0px;
+    height: 20px;
     input {
       width: 100%;
       background-image: linear-gradient(to bottom, transparent 50%, #2C2C2C 100%);
-      border-radius: 5px;
       background-color: transparent;
-      border: none; outline: none;
+      border: 0.5px solid white; 
+      outline: none;
       color: white;
       text-indent: 4px;
     }
@@ -79,18 +102,16 @@ const SearchContainer = styled.div`
     mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
     margin-top: 0.8rem;
     height: 100%;
-    width: 90%;
+    width: 100%;
     overflow: scroll;
 
     &::-webkit-scrollbar {
       display: none; 
     }
     
-    ul {
-      cursor: pointer;
+    .group {
       font-family: 'Oxygen Mono', monospace;
-      margin: auto 0rem auto 1rem; padding: 0px;
-      list-style-type: none;
+      margin: 0px 0rem auto 0rem; padding: 0px;
       text-align: center;
       line-height: 1.1rem;
       &:last-child {
@@ -98,20 +119,39 @@ const SearchContainer = styled.div`
       }
     }
 
-    li {
-    margin: 0px; padding: 0px;
-    list-style-type: none;
-    text-align: left;
-    margin-bottom: 0.2rem;
-
-    span {
-      font-family: 'Oxygen', monospace;
-      font-size: 0.8rem;
-      text-align: right;
-      margin: 0 0 0 auto;
-      float: right;
+    .item {
+      cursor: pointer;
+      margin: 0px; padding: 0px;
+      margin-bottom: 0.2rem;
+      background-color: #212121;
+      height: 2.2rem;
+      h1 {
+        margin: 0px; padding: 0px;
+        margin-left: 0.3rem;
+        padding-top: 0.1rem;
+        font-size: 1rem;
+        font-weight: light;
+        text-align: left;
+        line-height: auto;
+      }
+      span {
+        font-family: 'Oxygen', monospace;
+        text-align: right;
+        margin: 0 0.3rem 0 auto;
+        float: right;           
+      }
+      h2 {
+        margin: 0px; padding: 0px;
+        margin-left: 0.3rem;
+        font-size: 0.7rem;
+        font-weight: lighter;
+        text-align: left;
+        line-height: 1.2rem;      
+      }
     }
-  }
+    .active {
+      background-color: #DE0D0D;
+    }
   }
 `;
 
@@ -288,7 +328,14 @@ const SelectedVehicleContainer = styled.div`
           color: white;
         }
       }
+
     }
+      .active {
+        background-color: #3A3A3A;
+        h5 {
+          color: white;
+        }
+      }
   }
 
   h1 {
@@ -369,18 +416,11 @@ const SideBar = styled.div`
     border-radius: 100%;
     margin: 1rem auto auto 1rem;
   }
-  @media only screen and (max-width: 800px) {
+
+  @media only screen and (max-width: 600px) {
     position: fixed; 
     height: 100vh;
-    top: 0;
-    .menubtn {
-      display: flex;   
-    }
-  }
-    @media only screen and (max-width: 500px) {
-    position: fixed; 
-    height: 100vh;
-    width: 100vw;
+    width: 14rem;
     top: 0;
     .menubtn {
       display: flex;   
@@ -487,7 +527,7 @@ const Blocks = (props) => {
     <BlockStyle>
       <ul>
       {GetBlocks(props.amount0)}
-      {props.amount0 > 0 ? <span>*num of reuses</span> : null}
+      {props.amount0 > 0 ? <span>*booster reflights</span> : null}
       </ul>
       <ul>
       {GetBlocks(props.amount1)}
@@ -515,40 +555,50 @@ const App = () => {
   const [filteredLaunches, setFilteredLaunches] = useState([0]);
   const [filteredCores, setFilteredCores] = useState([0]);
   const [search, setSearch] = useState('');
+  const [searchFilterLaunches, setSearchFilterLaunches] = useState([]);
   const [displayVehicles] = useState(true);
   const [listofVehicles, setListOfVehicles] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState('00000');
   const [selectedMission, setSelectedMission] = useState('00000');
   const [sideBarToggled, setSideBarToggled] = useState(true);
 
+  const SearchLaunches = (searchstring, myLaunches) => {
+    let tempLaunches = myLaunches.filter((result)=>{return(
+      result.mission_name.toLowerCase().includes(searchstring.toLowerCase()) ||
+      result.core_serial.toLowerCase().includes(searchstring.toLowerCase())
+    )})
+    setSearchFilterLaunches(tempLaunches)
+    //UpdateSelectedVehicle(tempLaunches[0] ? tempLaunches[0] : '00000')
+    console.log(tempLaunches);
+  }
+
+  const SearchCores = (searchstring, myCores) => {
+    let tempLaunches = myCores.filter((result)=>{return(
+      result.core_serial.toLowerCase().includes(searchstring.toLowerCase())
+    )})
+
+    return(tempLaunches[0] ? tempLaunches[0] : '00000')
+
+  }
+
 
   const filterLaunches = (targetLaunch, myLaunches) => {
     setAllLaunches(myLaunches);
     setFilteredLaunches(myLaunches.filter((result)=>{return(result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()) )}))
-
     let selectedMissions = myLaunches.filter((result)=>{return(result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()))})   
     let mySelectedMission = selectedMissions[selectedMissions.length - 1];
-    setSelectedMission(mySelectedMission ? mySelectedMission : '00000')
+    //setSelectedMission(mySelectedMission ? mySelectedMission : '00000')
+
+    SearchLaunches('', myLaunches);
+
   }
 
   const filterCores = (targetCore, myCores) => {
     setAllCores(myCores);
-    // setFilteredCores(myCores.filter((result)=>{return(
-    //   result.core_serial.toLowerCase().includes(targetCore.toLowerCase()) ||
-    //   result.missions.filter((result2)=>{
-    //     //console.log(result2);
-    //     if (result2.name.toLowerCase().includes(targetCore.toLowerCase())) {
-    //      console.log(result2);
-    //      return(result2)
-    //     }
-    //   })[0]
-    // )}))
     let tempCores = myCores.filter((result)=>{return(
       result.core_serial.toLowerCase().includes(targetCore.toLowerCase()) ||
       result.missions.filter((result2)=>{
-        //console.log(result2);
         if (result2.name.toLowerCase().includes(targetCore.toLowerCase())) {
-         console.log(result2);
          return(result2)
         }
       })[0]
@@ -556,6 +606,8 @@ const App = () => {
     setFilteredCores(tempCores)
     UpdateSelectedVehicle(tempCores[0] ? tempCores[0] : '00000')
   }
+
+
 
   const UpdateSelectedVehicle = (result) => {
     setSelectedVehicle(result);
@@ -602,10 +654,11 @@ const App = () => {
               'fairing_recovered' : launch.rocket.fairings !== null ? launch.rocket.fairings.recovery_attempt ? launch.rocket.fairings.recovered ? 'SUCCESS' : 'FAILURE' : 'NO ATTEMPT' : 'N/A',
               'mission_patch' : launch.links.mission_patch_small,
               'details' : launch.details,
-              'launch_date' : launch.launch_date_utc,
+              'launch_date' : launch.launch_date_utc.split('T')[0],
               'launch_site' : launch.launch_site.site_name,
               'landing_success' : launch.upcoming ? 'N/A' : launch.rocket.first_stage.cores[0].land_success ? 'SUCCESS' : 'FAILURE',
-              'video_link' : launch.links.video_link
+              'video_link' : launch.links.video_link,
+              'core_flights' : launch.rocket.first_stage.cores[0].flight
               }
             )
           }))
@@ -614,9 +667,6 @@ const App = () => {
 
   return(
     <Style>
-{/*       <TopBar toggled={sideBarToggled}> */}
-{/*  */}
-{/*       </TopBar> */}
 
       <div className='row'>
 
@@ -629,25 +679,36 @@ const App = () => {
               value={search} 
               onKeyDown={(e)=>{
                 if(e.keyCode == 13){
-                  filterCores(search, allCores)
+                  SearchLaunches(search, allLaunches)
                 }
                 }}
              ></input>
-            <IosSearch className='searchimg' onClick={()=>{ filterCores(search, allCores) }} color='white'/>
+            <IosSearch className='searchimg' onClick={()=>{ SearchLaunches(search, allLaunches) }} color='white'/>
           </div>
           <div className='scroll-container'>
-            <ul>
-            {filteredCores.map((result, i) => { 
+            <div className='group'>
+            {!searchFilterLaunches.length > 0 ? 
+              <IosSync color='white' className='loadingicon' /> : null
+            }
+            {searchFilterLaunches.map((result, i) => { 
             return(
-              <li onClick={()=>{ UpdateSelectedVehicle(result); }}>
-                {result.core_serial} 
+              <div className={result.mission_name === selectedMission.mission_name ? 'item active' : 'item'} onClick={()=>{ 
+                  UpdateSelectedVehicle(SearchCores(result.core_serial, allCores));
+                  setSelectedMission(result);
+                }}>
+                <h1>
+                {result.mission_name ? result.mission_name.length > 10 ? result.mission_name.slice(0, -result.mission_name.length + 10) : result.mission_name : null} 
                 <span>
-                {result.missions ? result.missions[0].name.length > 10 ? result.missions[0].name.slice(0, -result.missions[0].name.length + 10) : result.missions[0].name : null }
+                {result.core_serial}
                 </span>
-              </li>
+                </h1>
+                <h2>
+                  {result.launch_date}
+                </h2>
+              </div>
               )
             })}
-            </ul>
+            </div>
           </div>
         </SearchContainer>
       </SideBar>
@@ -677,9 +738,10 @@ const App = () => {
 
           <div className='selected-vehicle-missions'>
           {selectedVehicle.missions ? selectedVehicle.missions.map((result, i) => { 
-            console.log(selectedVehicle)
           return(
-            <div className='mission-result' onClick={()=>{UpdateSelectedMission(result.name)}}>
+            <div            
+              className={result.name === selectedMission.mission_name ? 'mission-result active' : 'mission-result'} 
+              onClick={()=>{UpdateSelectedMission(result.name)}}>
               <h5>
               {result.name ? result.name.length > 22 ? result.name.slice(0, -result.name.length + 22) + '...' : result.name : null }
               {/* <span>{result.launch_date ? result.launch_date.split('T')[0] : '00/00/00'}</span> */}
@@ -707,7 +769,7 @@ const App = () => {
         
         <div className='row'>
 
-        <div className='selected-mission-label' onClick={()=>{console.log(allCores)}}>
+        <div className='selected-mission-label'>
           <h1>{selectedMission.mission_name || '00000'}
             {/* <span>FLIGHT{selectedMission.flight_number ? selectedMission.flight_number : 0}</span>  */}
           </h1>        
@@ -720,6 +782,8 @@ const App = () => {
           <li>Fairing Recovery<span>{selectedMission.fairing_recovered}</span></li>
           <li>Landing Status<span>{selectedMission.landing_success}</span></li>
           <li>Flight #<span>{selectedMission.flight_number}</span></li>
+          <li>Core Flights<span>{selectedMission.core_flights}</span></li>
+
         </ul>
         
         </div>
