@@ -7,13 +7,13 @@ import IosMenu from 'react-ionicons/lib/IosMenu'
 import LogoYoutube from 'react-ionicons/lib/LogoYoutube'
 import IosClose from 'react-ionicons/lib/IosClose'
 import IosSync from 'react-ionicons/lib/IosSync'
-
-
+import Timeline from './components/Timeline.js'
+import TimelineRadial from './components/TimelineRadial.js'
 import bgimg from './dark.png'
 import bgimg2 from './dark2.png'
 import bgimginvert from './darkinvert.png'
-
-import Typist from 'react-typist';
+import SiteLogo from './components/SiteLogo.js'
+import Blocks from './components/Blocks.js'
 
 
 const Style = styled.div` 
@@ -66,10 +66,9 @@ const Style = styled.div`
 const SearchContainer = styled.div`
   background-color: transparent;
   height: 92vh;
-  width: auto;
-  margin: 0px auto 0px auto;
+  width: 100%;
+  margin: 0px 0.5rem 0px 0.5rem;
   padding-top: 1rem;
-
 
   @media only screen and (max-width: 600px) {
     padding-top: 5rem;
@@ -79,7 +78,7 @@ const SearchContainer = styled.div`
     width: 100%;
     display: flex; flex-direction: row;
     margin: auto;
-    margin-bottom: 0px;
+    margin-bottom: 1rem;
     height: 20px;
     input {
       width: 100%;
@@ -95,12 +94,17 @@ const SearchContainer = styled.div`
       width: 20px;    
       height: 20px;  
     }   
+
+    .clearsearch {
+      margin-left: -1.2rem;
+      height: 1.3rem; width: 1.3rem;
+    }
   }
 
   .scroll-container {
-    -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 30%, transparent 100%);
-    margin-top: 0.8rem;
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+
     height: 100%;
     width: 100%;
     overflow: scroll;
@@ -120,6 +124,7 @@ const SearchContainer = styled.div`
     }
 
     .item {
+      width: 100%;
       cursor: pointer;
       margin: 0px; padding: 0px;
       margin-bottom: 0.2rem;
@@ -222,6 +227,16 @@ const SelectedMissionContainer = styled.div`
     margin-bottom: 4rem;
   }
 
+  .bottombox {
+    margin-top: 2rem;
+  }
+
+  .mission_description {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+  }
+
   a {
     margin: auto; padding: 0px;
     text-align: center;
@@ -261,11 +276,11 @@ const SelectedVehicleContainer = styled.div`
   .selected-vehicle-missions {
     margin: auto;
     min-height: 40px;
-    max-height: 150px;
+    max-height: 300px;
     height: auto;
     min-width: 300px;
     width: auto;
-    margin: auto 1rem 0.5rem auto;
+    margin: auto 1rem 1rem auto;
     width: 100%;
     /*border-left: 0.5px solid black;*/
     border-right: 0.5px solid black;
@@ -276,9 +291,8 @@ const SelectedVehicleContainer = styled.div`
     }
 
     .mission-result {
-      height: 2rem;
-      margin-top: 12px;
-      margin-bottom: 12px;
+      height: auto;
+      margin-bottom: 0.1rem;
       margin-left: 12px;
       z-index: 2;
       border-left: 4px solid gray;
@@ -389,10 +403,10 @@ const SelectedVehicleContainer = styled.div`
   p {
     margin: auto;
     font-size: 0.7rem;
-    width: 40%;
+    width: 100%;
     text-align: center;
+    padding-bottom: 1rem;
   }
-
 `;
 
 const SideBar = styled.div`
@@ -428,126 +442,10 @@ const SideBar = styled.div`
   }
 `;
 
-const TopBar = styled.div`
-  position: relative;
-  width: 100%;
-  height: 3.5rem;
 
-  display: flex;
-  padding-bottom: 0.3rem;
-  background-image: url(${bgimg});
-  background-size: cover;
 
-  .img {
-    display: ${props => props.toggled ? 'none' : 'flex'};
-    width: 25px; height: 25px;
-    border: 0.5px solid white;
-    margin: 1rem auto auto 1rem;
-  }
-`;
 
-const SiteLogo = styled.div`
-    position: absolute;
-    top: 0; right: 0;
-    display: flex; flex-direction: column;
-    margin: 0.5rem 0.8rem 1rem auto; padding: 0px;
 
-    h1 {
-      font-size: 2.25rem; padding: 0px;
-      margin: 0 0 0 auto;
-      line-height: 2rem;  
-      font-weight: bolder;
-      color: rgba(0,0,0,1);
-    }
-    h2 {
-      font-size: 2.1rem; padding: 0px;
-      margin: 0rem 0 0 auto;
-      line-height: 1.7rem;
-      color: rgba(0,0,0,0.8);
-      font-weight: bold;
-    }
-    h3 {
-      font-size: 1.8rem; padding: 0px;
-      margin: 0 0 0 auto;
-      line-height: 1.5rem;
-      color: rgba(0,0,0,0.6);
-      font-weight: light;
-    }
-    h4 {
-      font-size: 1rem; padding: 0px;
-      margin: 0 0 0 auto;
-      line-height: 1rem;
-      color: rgba(0,0,0,0.38);
-      font-weight: lighter;
-    }
-    h5 {
-      font-size: 0.7rem; padding: 0px;
-      margin: 0 0 0 auto;
-      line-height: 0.7rem;
-      color: rgba(0,0,0,0.25); 
-      font-weight: lighter;     
-    }
-`
-
-const Blocks = (props) => {
-  const BlockStyle = styled.div`
-    margin-bottom: 1rem;
-    margin-left: 0.8rem;
-    ul {
-      padding: 0px;
-      margin: 0px;
-      min-height: 0px;
-      height: auto;
-      list-style-type: none;
-      display: flex; flex-direction: row;
-    }
-    li {
-      height: 10px; width: 10px; background-color: black;
-      margin: 2px;
-    }
-    span {
-      font-size: 0.5rem;
-      text-indent: 0.1rem;
-    }
-  `;
-
-  const GetBlocks = (returnamount) => {
-  let blockarray = [];
-
-  if (returnamount) { 
-    for (let i = 0; i < returnamount; i++) {
-      blockarray.push(<li></li>)
-    }
-  }
-
-  return(blockarray)
-  }
-
-  return (
-    <BlockStyle>
-      <ul>
-      {GetBlocks(props.amount0)}
-      {props.amount0 > 0 ? <span>*booster reflights</span> : null}
-      </ul>
-      <ul>
-      {GetBlocks(props.amount1)}
-      {props.amount1 > 0 ? <span>*launch site landing attempts</span> : null}
-      </ul>
-      <ul>
-      {GetBlocks(props.amount2)}
-      {props.amount2 > 0 ? <span>*drone ship landing attempts</span> : null}
-      </ul>
-    </BlockStyle>
-  )
-}
-
-const AnimatedTypingComponent = (props) => {
-  return(
-  <Typist avgTypingDelay={150}>
-    {props.children}
-  </Typist>
-  )
-};
 
 const App = () => {
   const [allLaunches, setAllLaunches] = useState([]);
@@ -568,7 +466,6 @@ const App = () => {
       result.core_serial.toLowerCase().includes(searchstring.toLowerCase())
     )})
     setSearchFilterLaunches(tempLaunches)
-    //UpdateSelectedVehicle(tempLaunches[0] ? tempLaunches[0] : '00000')
     console.log(tempLaunches);
   }
 
@@ -578,19 +475,23 @@ const App = () => {
     )})
 
     return(tempLaunches[0] ? tempLaunches[0] : '00000')
-
   }
-
 
   const filterLaunches = (targetLaunch, myLaunches) => {
     setAllLaunches(myLaunches);
-    setFilteredLaunches(myLaunches.filter((result)=>{return(result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()) )}))
+    console.log(targetLaunch)
+    setFilteredLaunches(myLaunches.filter((result)=>{
+      if (result.core_serial) {
+      return(
+        result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()) 
+        )
+      }
+      else return('error')
+
+      }))
     let selectedMissions = myLaunches.filter((result)=>{return(result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()))})   
     let mySelectedMission = selectedMissions[selectedMissions.length - 1];
-    //setSelectedMission(mySelectedMission ? mySelectedMission : '00000')
-
-    SearchLaunches('', myLaunches);
-
+    SearchLaunches(search, myLaunches);
   }
 
   const filterCores = (targetCore, myCores) => {
@@ -607,10 +508,9 @@ const App = () => {
     UpdateSelectedVehicle(tempCores[0] ? tempCores[0] : '00000')
   }
 
-
-
   const UpdateSelectedVehicle = (result) => {
     setSelectedVehicle(result);
+    if (result.core_serial)
     filterLaunches(result.core_serial, allLaunches)
   }
 
@@ -658,7 +558,7 @@ const App = () => {
               'launch_site' : launch.launch_site.site_name,
               'landing_success' : launch.upcoming ? 'N/A' : launch.rocket.first_stage.cores[0].land_success ? 'SUCCESS' : 'FAILURE',
               'video_link' : launch.links.video_link,
-              'core_flights' : launch.rocket.first_stage.cores[0].flight
+              'core_flights' : launch.rocket.first_stage.cores[0].flight ? launch.rocket.first_stage.cores[0].flight : 'UNKNOWN' 
               }
             )
           }))
@@ -667,14 +567,12 @@ const App = () => {
 
   return(
     <Style>
-
       <div className='row'>
-
       <SideBar toggled={sideBarToggled}>   
         <IosClose className='menubtn' color='white' onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
-
         <SearchContainer>
           <div className='topbar'>
+            <div className='row'>
             <input onChange={(e)=>{ setSearch(e.target.value); }}
               value={search} 
               onKeyDown={(e)=>{
@@ -682,7 +580,9 @@ const App = () => {
                   SearchLaunches(search, allLaunches)
                 }
                 }}
-             ></input>
+             /><IosClose className='clearsearch' color='white' 
+             onClick={()=>{setSearch(''); SearchLaunches('', allLaunches)}} />
+             </div>
             <IosSearch className='searchimg' onClick={()=>{ SearchLaunches(search, allLaunches) }} color='white'/>
           </div>
           <div className='scroll-container'>
@@ -692,7 +592,8 @@ const App = () => {
             }
             {searchFilterLaunches.map((result, i) => { 
             return(
-              <div className={result.mission_name === selectedMission.mission_name ? 'item active' : 'item'} onClick={()=>{ 
+              <div className={result.mission_name === selectedMission.mission_name ? 'item active' : 'item'} 
+                onClick={()=>{ 
                   UpdateSelectedVehicle(SearchCores(result.core_serial, allCores));
                   setSelectedMission(result);
                 }}>
@@ -716,17 +617,8 @@ const App = () => {
 
       <div className='content'>
 
-      <IosMenu className='menubtn' color='black' onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
-
-      <AnimatedTypingComponent>              
-      <SiteLogo>       
-          <h1>TMWY</h1>
-          <h2>Take</h2>
-          <h3>Me</h3>
-          <h4>With</h4>
-          <h5>You</h5>
-      </SiteLogo>
-      </AnimatedTypingComponent>
+      <IosMenu className='menubtn' color='black' onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>           
+      <SiteLogo />       
 
       <SelectedVehicleContainer vehiclelabelsize={selectedVehicle.core_serial ? selectedVehicle.core_serial.length > 5 ? '2.5rem' : '4rem' : '4rem'}>       
         <div className='row'>
@@ -782,21 +674,28 @@ const App = () => {
           <li>Fairing Recovery<span>{selectedMission.fairing_recovered}</span></li>
           <li>Landing Status<span>{selectedMission.landing_success}</span></li>
           <li>Flight #<span>{selectedMission.flight_number}</span></li>
-          <li>Core Flights<span>{selectedMission.core_flights}</span></li>
+          <li>Previous Core Flights<span>{selectedMission.core_flights - 1 || 0}</span></li>
 
         </ul>
         
         </div>
 
-         <p>{selectedMission.details}</p> 
-
-        {selectedMission.video_link ? 
-        <a href={selectedMission.video_link} target="_blank">
-          <LogoYoutube color='black'/>
-        </a> : null }
+        <div className='row bottombox'>
+          {selectedMission.details ? 
+        <p className='mission_description' >{selectedMission.details}</p> : null }
+        <TimelineRadial launches={filteredCores} selectedMission={selectedVehicle} UpdateSelectedMission={UpdateSelectedMission} />
+        </div>
+        {/* {selectedMission.video_link ?  */}
+        {/* <a href={selectedMission.video_link} target="_blank"> */}
+        {/*   <LogoYoutube color='black'/> */}
+        {/* </a> : null } */}
 
 
       </SelectedMissionContainer>
+
+      {/* <Timeline launches={searchFilterLaunches} selectedMission={selectedMission} UpdateSelectedMission={UpdateSelectedMission} /> */}
+
+
       </div>
 
       </div>
