@@ -63,7 +63,7 @@ const Timeline = (props) => {
 		let end = props.launches.length;
 		let q = Math.abs(i-start);
 		let d = Math.abs(end-start);
-			console.log(q/d*100 * 3.6)
+
 		return(
 			//Math.round((q/d)*100)
 			 // i * 3.6

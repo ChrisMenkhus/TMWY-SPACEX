@@ -6,48 +6,54 @@ const Style = styled.div`
     top: 0; right: 0;
     display: flex; flex-direction: column;
     margin: 0.5rem 0.8rem 1rem auto; padding: 0px;
+    user-select: none;
 
     h1 {
       font-size: 2.25rem; padding: 0px;
       margin: 0 0 0 auto;
       line-height: 2rem;  
       font-weight: bolder;
-      color: rgba(0,0,0,1);
+      color: ${props => props.darkModeEnabled ? 'white' : 'black'};
+      opacity: 1;
     }
     h2 {
       font-size: 2.1rem; padding: 0px;
       margin: 0rem 0 0 auto;
       line-height: 1.7rem;
-      color: rgba(0,0,0,0.8);
+      color: ${props => props.darkModeEnabled ? 'white' : 'black'};
       font-weight: bold;
+      opacity: 0.8;
     }
     h3 {
       font-size: 1.8rem; padding: 0px;
       margin: 0 0 0 auto;
       line-height: 1.5rem;
-      color: rgba(0,0,0,0.6);
+      color: ${props => props.darkModeEnabled ? 'white' : 'black'};
       font-weight: light;
+      opacity: 0.6;
     }
     h4 {
       font-size: 1rem; padding: 0px;
       margin: 0 0 0 auto;
       line-height: 1rem;
-      color: rgba(0,0,0,0.38);
+      color: ${props => props.darkModeEnabled ? 'white' : 'black'};
       font-weight: lighter;
+      opacity: 0.38;
     }
     h5 {
       font-size: 0.7rem; padding: 0px;
       margin: 0 0 0 auto;
       line-height: 0.7rem;
-      color: rgba(0,0,0,0.25); 
-      font-weight: lighter;     
+      color: ${props => props.darkModeEnabled ? 'white' : 'black'};
+      font-weight: lighter;   
+      opacity: 0.25;  
     }
 `
 
 
-const SiteLogo = () => {
+const SiteLogo = (props) => {
 	return(
-	<Style>
+	<Style darkModeEnabled={props.darkModeEnabled}>
 		<h1>TMWY</h1>
         <h2>Take</h2>
         <h3>Me</h3>

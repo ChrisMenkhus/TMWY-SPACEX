@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import styled from 'styled-components';
 import IosSearch from 'react-ionicons/lib/IosSearch'
 import IosMenu from 'react-ionicons/lib/IosMenu'
-import LogoYoutube from 'react-ionicons/lib/LogoYoutube'
 import IosClose from 'react-ionicons/lib/IosClose'
 import IosSync from 'react-ionicons/lib/IosSync'
-import Timeline from './components/Timeline.js'
-import TimelineRadial from './components/TimelineRadial.js'
-import bgimg from './dark.png'
+import MdSunny from 'react-ionicons/lib/MdSunny'
+import IosMoon from 'react-ionicons/lib/IosMoon'
+
+import TimelineFlat from './components/TimelineFlat.js'
 import bgimg2 from './dark2.png'
 import bgimginvert from './darkinvert.png'
 import SiteLogo from './components/SiteLogo.js'
 import Blocks from './components/Blocks.js'
 
+import * as Colors from './Colors.js'
 
 const Style = styled.div` 
   display: flex; flex-direction: column;
@@ -31,8 +31,10 @@ const Style = styled.div`
   .content {
     display: flex; flex-direction: column;
     width: 100%;
-    background-color: #ECECEC;
+    background-color: ${props => props.darkModeEnabled ? Colors.background : Colors.background_light};
     background-image: linear-gradient(to bottom, transparent 20%, #E2E2E2 50%);
+    background-image: linear-gradient(to bottom, transparent 20%, ${props => props.darkModeEnabled ? Colors.background : Colors.background_light} 50%);
+
     /*background-image: url(${bgimginvert});*/
     background-size: cover;
     background-position: left bottom;
@@ -40,12 +42,24 @@ const Style = styled.div`
     height: 100%;
 
     .menubtn {
-      position: absolute;
-      width: 35px; height: 35px;
+      position: fixed;
+      width: 2rem; height: 2rem;
       padding: 5px;
-      border: 1px solid black;
+      border: 1px solid ${props => props.darkModeEnabled ? 'white' : 'black'};
       border-radius: 100%;
       margin: 1rem auto auto 1rem;
+      /*background-color: black;*/
+    }
+
+    .darkbtn {
+      position: fixed;
+      width: 1rem; height: 1rem;
+      padding: 5px;
+      border: 1px solid ${props => props.darkModeEnabled ? 'white' : 'black'};
+      border-radius: 100%;
+      margin: 1rem 1rem auto auto;
+      right: 0;
+      bottom: 1rem;
       /*background-color: black;*/
     }
   }
@@ -75,7 +89,7 @@ const SearchContainer = styled.div`
   }
 
   .topbar {
-    width: 100%;
+    width: 90%;
     display: flex; flex-direction: row;
     margin: auto;
     margin-bottom: 1rem;
@@ -111,7 +125,11 @@ const SearchContainer = styled.div`
 
     &::-webkit-scrollbar {
       display: none; 
+      width: 0px;
     }
+
+    scrollbar-width: none;
+
     
     .group {
       font-family: 'Oxygen Mono', monospace;
@@ -124,10 +142,10 @@ const SearchContainer = styled.div`
     }
 
     .item {
-      width: 100%;
+      width: 90%;
       cursor: pointer;
-      margin: 0px; padding: 0px;
-      margin-bottom: 0.2rem;
+      margin: auto; padding: 0px;
+      margin-bottom: 0.5rem;
       background-color: #212121;
       height: 2.2rem;
       h1 {
@@ -164,7 +182,7 @@ const SelectedMissionContainer = styled.div`
   height: 100%;
   display: flex; flex-direction: column;
   margin: 1rem auto auto auto;
-  color: black;
+  color: ${props => props.darkModeEnabled ? Colors.text : Colors.text_light};;
   min-width: 300px;
   max-width: 600px;
   width: 100%;
@@ -233,8 +251,9 @@ const SelectedMissionContainer = styled.div`
 
   .mission_description {
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     margin: auto;
+    padding: 10px;
   }
 
   a {
@@ -249,7 +268,7 @@ const SelectedVehicleContainer = styled.div`
   display: flex; 
   flex-direction: column;
   margin: auto auto auto auto;
-  color: black;
+  color: ${props => props.darkModeEnabled ? Colors.text : Colors.text_light};
   .row {
     display: flex; flex-direction: row;
     flex-wrap: wrap;
@@ -284,11 +303,12 @@ const SelectedVehicleContainer = styled.div`
     width: 100%;
     /*border-left: 0.5px solid black;*/
     border-right: 0.5px solid black;
-    overflow: scroll;
     cursor: pointer;
+    overflow: scroll;
     &::-webkit-scrollbar {
       display: none; 
     }
+    scrollbar-width: none;
 
     .mission-result {
       height: auto;
@@ -306,7 +326,7 @@ const SelectedVehicleContainer = styled.div`
         line-height: 2rem;
         text-align: left;
         text-indent: 5px;
-        color: black;
+       
 
         span {
           font-size: 1rem;
@@ -442,31 +462,33 @@ const SideBar = styled.div`
   }
 `;
 
-
-
-
-
-
 const App = () => {
   const [allLaunches, setAllLaunches] = useState([]);
   const [allCores, setAllCores] = useState([]);
-  const [filteredLaunches, setFilteredLaunches] = useState([0]);
+  // const [filteredLaunches, setFilteredLaunches] = useState([0]);
   const [filteredCores, setFilteredCores] = useState([0]);
   const [search, setSearch] = useState('');
   const [searchFilterLaunches, setSearchFilterLaunches] = useState([]);
-  const [displayVehicles] = useState(true);
-  const [listofVehicles, setListOfVehicles] = useState([]);
+  const [searchFilterLoading, setSearchFilterLoading] = useState(true);
+
+  // const [displayVehicles] = useState(true);
+  // const [listofVehicles, setListOfVehicles] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState('00000');
   const [selectedMission, setSelectedMission] = useState('00000');
   const [sideBarToggled, setSideBarToggled] = useState(true);
 
+  const [darkModeEnabled, setDarkModeEnabled] = useState(true);
+
   const SearchLaunches = (searchstring, myLaunches) => {
+    setSearchFilterLoading(true);
+
     let tempLaunches = myLaunches.filter((result)=>{return(
       result.mission_name.toLowerCase().includes(searchstring.toLowerCase()) ||
       result.core_serial.toLowerCase().includes(searchstring.toLowerCase())
     )})
-    setSearchFilterLaunches(tempLaunches)
-    console.log(tempLaunches);
+
+    setSearchFilterLaunches(tempLaunches.reverse())
+    setSearchFilterLoading(false);
   }
 
   const SearchCores = (searchstring, myCores) => {
@@ -479,18 +501,17 @@ const App = () => {
 
   const filterLaunches = (targetLaunch, myLaunches) => {
     setAllLaunches(myLaunches);
-    console.log(targetLaunch)
-    setFilteredLaunches(myLaunches.filter((result)=>{
-      if (result.core_serial) {
-      return(
-        result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()) 
-        )
-      }
-      else return('error')
-
-      }))
-    let selectedMissions = myLaunches.filter((result)=>{return(result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()))})   
-    let mySelectedMission = selectedMissions[selectedMissions.length - 1];
+//     setFilteredLaunches(myLaunches.filter((result)=>{
+//       if (result.core_serial) {
+//       return(
+//         result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()) 
+//         )
+//       }
+//       else return('error')
+// 
+//       }))
+    // let selectedMissions = myLaunches.filter((result)=>{return(result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()))})   
+    // let mySelectedMission = selectedMissions[selectedMissions.length - 1];
     SearchLaunches(search, myLaunches);
   }
 
@@ -501,7 +522,7 @@ const App = () => {
       result.missions.filter((result2)=>{
         if (result2.name.toLowerCase().includes(targetCore.toLowerCase())) {
          return(result2)
-        }
+        } else return null
       })[0]
     )})
     setFilteredCores(tempCores)
@@ -510,6 +531,12 @@ const App = () => {
 
   const UpdateSelectedVehicle = (result) => {
     setSelectedVehicle(result);
+
+    if (typeof result.missions !== 'undefined') {
+      // let target = result.missions[0].name;
+      // setSelectedMission(allLaunches.filter((newresult)=>{return(newresult.mission_name.toLowerCase().includes(target.toLowerCase()))})[0]);
+    }
+
     if (result.core_serial)
     filterLaunches(result.core_serial, allLaunches)
   }
@@ -528,7 +555,7 @@ const App = () => {
               'core_serial' : core.core_serial,
               'status' : core.status,
               'details' : core.details,
-              'block' : core.block || 'X',
+              'block' : core.block,
               'reuse_count' : core.reuse_count,
               'rtls_attempts' : core.rtls_attempts,
               'asds_attempts': core.asds_attempts,
@@ -566,7 +593,7 @@ const App = () => {
   }, [])
 
   return(
-    <Style>
+    <Style darkModeEnabled={darkModeEnabled}>
       <div className='row'>
       <SideBar toggled={sideBarToggled}>   
         <IosClose className='menubtn' color='white' onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
@@ -576,7 +603,7 @@ const App = () => {
             <input onChange={(e)=>{ setSearch(e.target.value); }}
               value={search} 
               onKeyDown={(e)=>{
-                if(e.keyCode == 13){
+                if(e.keyCode === 13){
                   SearchLaunches(search, allLaunches)
                 }
                 }}
@@ -587,12 +614,14 @@ const App = () => {
           </div>
           <div className='scroll-container'>
             <div className='group'>
-            {!searchFilterLaunches.length > 0 ? 
-              <IosSync color='white' className='loadingicon' /> : null
+            {searchFilterLoading ? 
+              <IosSync color='white' className='loadingicon' /> : 
+              searchFilterLaunches.length > 0 ? null : <p>no results found</p>
             }
             {searchFilterLaunches.map((result, i) => { 
             return(
-              <div className={result.mission_name === selectedMission.mission_name ? 'item active' : 'item'} 
+              <div key={result.mission_name + '.' + i}
+                className={result.mission_name === selectedMission.mission_name ? 'item active' : 'item'} 
                 onClick={()=>{ 
                   UpdateSelectedVehicle(SearchCores(result.core_serial, allCores));
                   setSelectedMission(result);
@@ -617,21 +646,29 @@ const App = () => {
 
       <div className='content'>
 
-      <IosMenu className='menubtn' color='black' onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>           
-      <SiteLogo />       
+      <IosMenu className='menubtn' color={darkModeEnabled ? 'white' : 'black'} onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
+      {darkModeEnabled ?
+      <MdSunny className='darkbtn' color='white' onClick={()=>{ setDarkModeEnabled(!darkModeEnabled) }}/>           
+      : 
+      <IosMoon className='darkbtn' color='black' onClick={()=>{ setDarkModeEnabled(!darkModeEnabled) }}/>           
+      }
+      <SiteLogo darkModeEnabled={darkModeEnabled} />       
 
-      <SelectedVehicleContainer vehiclelabelsize={selectedVehicle.core_serial ? selectedVehicle.core_serial.length > 5 ? '2.5rem' : '4rem' : '4rem'}>       
+      <SelectedVehicleContainer vehiclelabelsize={selectedVehicle.core_serial ? selectedVehicle.core_serial.length > 5 ? '2.5rem' : '4rem' : '4rem'}
+        darkModeEnabled={darkModeEnabled}>       
         <div className='row'>
-          <div className='selected-vehicle-label' onClick={()=>{console.log(allCores)}}>
+          <div className='selected-vehicle-label'>
             <h1>{selectedVehicle.core_serial || '00000'}
-               <span>BLOCK{selectedVehicle.block ? selectedVehicle.block : 0}</span> 
+              {selectedVehicle.block ?
+               <span>BLOCK{selectedVehicle.block ? selectedVehicle.block : 0}</span> : null
+              }
             </h1>        
           </div>
 
           <div className='selected-vehicle-missions'>
           {selectedVehicle.missions ? selectedVehicle.missions.map((result, i) => { 
           return(
-            <div            
+            <div key={result.name + '.' + i}            
               className={result.name === selectedMission.mission_name ? 'mission-result active' : 'mission-result'} 
               onClick={()=>{UpdateSelectedMission(result.name)}}>
               <h5>
@@ -647,7 +684,7 @@ const App = () => {
         <p>{selectedVehicle.details}</p>
 
         <div className='row'>   
-        <Blocks
+        <Blocks darkModeEnabled={darkModeEnabled}
           amount0={selectedVehicle.reuse_count ? selectedVehicle.reuse_count : 0}
           amount1={selectedVehicle.rtls_attempts ? selectedVehicle.rtls_attempts : 0} 
           amount2={selectedVehicle.asds_attempts ? selectedVehicle.asds_attempts : 0} 
@@ -657,7 +694,7 @@ const App = () => {
         </div>
       </SelectedVehicleContainer>
 
-      <SelectedMissionContainer>
+      <SelectedMissionContainer darkModeEnabled={darkModeEnabled}>
         
         <div className='row'>
 
@@ -683,7 +720,7 @@ const App = () => {
         <div className='row bottombox'>
           {selectedMission.details ? 
         <p className='mission_description' >{selectedMission.details}</p> : null }
-        <TimelineRadial launches={filteredCores} selectedMission={selectedVehicle} UpdateSelectedMission={UpdateSelectedMission} />
+        <TimelineFlat cores={filteredCores} selectedVehicle={selectedVehicle} UpdateSelectedVehicle={UpdateSelectedVehicle} darkModeEnabled={darkModeEnabled} />
         </div>
         {/* {selectedMission.video_link ?  */}
         {/* <a href={selectedMission.video_link} target="_blank"> */}
@@ -699,6 +736,7 @@ const App = () => {
       </div>
 
       </div>
+
     </Style>
   )
 }
