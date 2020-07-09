@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/TMWY-SPACEX/static/css/main.13f9e700.chunk.css",
-    "main.js": "/TMWY-SPACEX/static/js/main.487e32cf.chunk.js",
-    "main.js.map": "/TMWY-SPACEX/static/js/main.487e32cf.chunk.js.map",
+    "main.css": "/TMWY-SPACEX/static/css/main.e1886365.chunk.css",
+    "main.js": "/TMWY-SPACEX/static/js/main.f9c43415.chunk.js",
+    "main.js.map": "/TMWY-SPACEX/static/js/main.f9c43415.chunk.js.map",
     "runtime-main.js": "/TMWY-SPACEX/static/js/runtime-main.a6cb4cba.js",
     "runtime-main.js.map": "/TMWY-SPACEX/static/js/runtime-main.a6cb4cba.js.map",
     "static/js/2.58a355e1.chunk.js": "/TMWY-SPACEX/static/js/2.58a355e1.chunk.js",
     "static/js/2.58a355e1.chunk.js.map": "/TMWY-SPACEX/static/js/2.58a355e1.chunk.js.map",
     "index.html": "/TMWY-SPACEX/index.html",
-    "precache-manifest.2218fd27c6834889fa68e7bb05d8d2d3.js": "/TMWY-SPACEX/precache-manifest.2218fd27c6834889fa68e7bb05d8d2d3.js",
+    "precache-manifest.08da43c204eb8d3e00baf65298b2bec9.js": "/TMWY-SPACEX/precache-manifest.08da43c204eb8d3e00baf65298b2bec9.js",
     "service-worker.js": "/TMWY-SPACEX/service-worker.js",
-    "static/css/main.13f9e700.chunk.css.map": "/TMWY-SPACEX/static/css/main.13f9e700.chunk.css.map",
+    "static/css/main.e1886365.chunk.css.map": "/TMWY-SPACEX/static/css/main.e1886365.chunk.css.map",
     "static/js/2.58a355e1.chunk.js.LICENSE.txt": "/TMWY-SPACEX/static/js/2.58a355e1.chunk.js.LICENSE.txt",
     "static/media/dark2.png": "/TMWY-SPACEX/static/media/dark2.fa285ec5.png",
     "static/media/darkinvert.png": "/TMWY-SPACEX/static/media/darkinvert.7495107b.png"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.a6cb4cba.js",
     "static/js/2.58a355e1.chunk.js",
-    "static/css/main.13f9e700.chunk.css",
-    "static/js/main.487e32cf.chunk.js"
+    "static/css/main.e1886365.chunk.css",
+    "static/js/main.f9c43415.chunk.js"
   ]
 }
