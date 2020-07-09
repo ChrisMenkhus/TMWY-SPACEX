@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const TimelineStyle = styled.div`
-	width: 100%; height: 150px;
+	width: 94%; height: 50px;
 	min-width: 280px;
 	max-width: 700px;
 	margin: auto;
@@ -14,7 +14,7 @@ const TimelineStyle = styled.div`
 
 const PointStyle = styled.div`
 	position: absolute;
-	width: 0.5%; height: ${props => props.size * 15 + '%'};
+	width: 0.25%; height: ${props => props.size * 25 + '%'};
 	background-color: ${props => props.color};
 	left: ${props => props.location + '%'};
 	bottom: 0;

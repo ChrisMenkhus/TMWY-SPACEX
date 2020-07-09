@@ -32,8 +32,8 @@ const Style = styled.div`
     display: flex; flex-direction: column;
     width: 100%;
     background-color: ${props => props.darkModeEnabled ? Colors.background : Colors.background_light};
-    background-image: linear-gradient(to bottom, transparent 20%, #E2E2E2 50%);
-    background-image: linear-gradient(to bottom, transparent 20%, ${props => props.darkModeEnabled ? Colors.background : Colors.background_light} 50%);
+    /*background-image: linear-gradient(to bottom, transparent 20%, #E2E2E2 50%);*/
+    /*background-image: linear-gradient(to bottom, transparent 20%, ${props => props.darkModeEnabled ? Colors.background : Colors.background_light} 50%);*/
 
     /*background-image: url(${bgimginvert});*/
     background-size: cover;
@@ -45,22 +45,25 @@ const Style = styled.div`
       position: fixed;
       width: 2rem; height: 2rem;
       padding: 5px;
-      border: 1px solid ${props => props.darkModeEnabled ? 'white' : 'black'};
+      border: 1px solid ${props => props.darkModeEnabled ? 'white' : 'none'};
       border-radius: 100%;
       margin: 1rem auto auto 1rem;
-      /*background-color: black;*/
+      background-color: ${props => props.darkModeEnabled ? '#171717' : '#171717'};
+     
     }
 
     .darkbtn {
       position: fixed;
       width: 1rem; height: 1rem;
       padding: 5px;
-      border: 1px solid ${props => props.darkModeEnabled ? 'white' : 'black'};
+      border: 1px solid ${props => props.darkModeEnabled ? 'white' : 'none'};
       border-radius: 100%;
       margin: 1rem 1rem auto auto;
       right: 0;
       bottom: 1rem;
-      /*background-color: black;*/
+
+      background-color: ${props => props.darkModeEnabled ? '#171717' : '#171717'};
+
     }
   }
 
@@ -73,6 +76,14 @@ const Style = styled.div`
         to {
           transform: rotate(359deg);
         }
+      }
+    }
+
+    .btn {
+      transition: all 0.2s;
+      &:hover {
+        transform: scale(1.1);
+        transform: rotate(360deg);
       }
     }
 `;
@@ -147,6 +158,7 @@ const SearchContainer = styled.div`
       margin: auto; padding: 0px;
       margin-bottom: 0.5rem;
       background-color: #212121;
+      border: 1px solid transparent;
       height: 2.2rem;
       h1 {
         margin: 0px; padding: 0px;
@@ -171,9 +183,17 @@ const SearchContainer = styled.div`
         text-align: left;
         line-height: 1.2rem;      
       }
+
+      transition: all 0.2s;
+      &:hover {
+        border-right: 1px solid #CC0A0A;
+      }
     }
     .active {
       background-color: #DE0D0D;
+      &:hover {
+        background-color: #DE0D0D;
+      }
     }
   }
 `;
@@ -181,7 +201,7 @@ const SearchContainer = styled.div`
 const SelectedMissionContainer = styled.div`
   height: 100%;
   display: flex; flex-direction: column;
-  margin: 1rem auto auto auto;
+  margin: auto auto auto auto;
   color: ${props => props.darkModeEnabled ? Colors.text : Colors.text_light};;
   min-width: 300px;
   max-width: 600px;
@@ -264,7 +284,7 @@ const SelectedMissionContainer = styled.div`
 
 const SelectedVehicleContainer = styled.div`
   height: auto;
-  border-bottom: 0.5px solid black;
+  border-bottom: 0.5px solid ${props => props.darkModeEnabled ? Colors.text : Colors.text_light};
   display: flex; 
   flex-direction: column;
   margin: auto auto auto auto;
@@ -302,7 +322,7 @@ const SelectedVehicleContainer = styled.div`
     margin: auto 1rem 1rem auto;
     width: 100%;
     /*border-left: 0.5px solid black;*/
-    border-right: 0.5px solid black;
+    border-right: 0.5px solid ${props => props.darkModeEnabled ? Colors.text : Colors.text_light};
     cursor: pointer;
     overflow: scroll;
     &::-webkit-scrollbar {
@@ -475,9 +495,10 @@ const App = () => {
   // const [listofVehicles, setListOfVehicles] = useState([]);
   const [selectedVehicle, setSelectedVehicle] = useState('00000');
   const [selectedMission, setSelectedMission] = useState('00000');
-  const [sideBarToggled, setSideBarToggled] = useState(true);
 
-  const [darkModeEnabled, setDarkModeEnabled] = useState(true);
+  const [sideBarToggled, setSideBarToggled] = useState(false);
+
+  const [darkModeEnabled, setDarkModeEnabled] = useState(false);
 
   const SearchLaunches = (searchstring, myLaunches) => {
     setSearchFilterLoading(true);
@@ -500,19 +521,13 @@ const App = () => {
   }
 
   const filterLaunches = (targetLaunch, myLaunches) => {
+    // console.log(queryString);
+
     setAllLaunches(myLaunches);
-//     setFilteredLaunches(myLaunches.filter((result)=>{
-//       if (result.core_serial) {
-//       return(
-//         result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()) 
-//         )
-//       }
-//       else return('error')
-// 
-//       }))
-    // let selectedMissions = myLaunches.filter((result)=>{return(result.core_serial.toLowerCase().includes(targetLaunch.toLowerCase()))})   
-    // let mySelectedMission = selectedMissions[selectedMissions.length - 1];
     SearchLaunches(search, myLaunches);
+
+    // setSelectedMission(myLaunches.filter((result)=>{return(result.mission_name.toLowerCase().includes(target.toLowerCase()))})[0]);
+
   }
 
   const filterCores = (targetCore, myCores) => {
@@ -525,31 +540,38 @@ const App = () => {
         } else return null
       })[0]
     )})
-    setFilteredCores(tempCores)
-    UpdateSelectedVehicle(tempCores[0] ? tempCores[0] : '00000')
+    setFilteredCores(tempCores);
+    UpdateSelectedVehicle(tempCores[0] ? tempCores[0] : '00000');
   }
 
   const UpdateSelectedVehicle = (result) => {
     setSelectedVehicle(result);
+    window.history.pushState({}, '', '?' + result.core_serial);
+    // let mission_name = result.missions[0].name;
 
-    if (typeof result.missions !== 'undefined') {
-      // let target = result.missions[0].name;
-      // setSelectedMission(allLaunches.filter((newresult)=>{return(newresult.mission_name.toLowerCase().includes(target.toLowerCase()))})[0]);
-    }
+    // UpdateSelectedMission(result.missions[0].name);
 
     if (result.core_serial)
-    filterLaunches(result.core_serial, allLaunches)
+    filterLaunches(result.core_serial, allLaunches);
+
   }
 
   const UpdateSelectedMission = (target) => {
     setSelectedMission(allLaunches.filter((result)=>{return(result.mission_name.toLowerCase().includes(target.toLowerCase()))})[0]);
+    console.log(selectedMission);
   }
 
   useEffect(()=>{
+    let queryString = window.location.search;
+    queryString = queryString.substring(1);
+    queryString = queryString.length > 1 ? queryString : 'b1049';
+    console.log(queryString);
+
+
     fetch('https://api.spacexdata.com/v3/cores')
     .then(res => res.json())
     .then((result) => {        
-          filterCores(search, result.map((core, i) => {
+          filterCores(queryString, result.map((core, i) => {
             return(
               {
               'core_serial' : core.core_serial,
@@ -596,7 +618,7 @@ const App = () => {
     <Style darkModeEnabled={darkModeEnabled}>
       <div className='row'>
       <SideBar toggled={sideBarToggled}>   
-        <IosClose className='menubtn' color='white' onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
+        <IosClose className='menubtn btn' color='white' onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
         <SearchContainer>
           <div className='topbar'>
             <div className='row'>
@@ -616,7 +638,7 @@ const App = () => {
             <div className='group'>
             {searchFilterLoading ? 
               <IosSync color='white' className='loadingicon' /> : 
-              searchFilterLaunches.length > 0 ? null : <p>no results found</p>
+              searchFilterLaunches.length > 0 ? null : <div><p>no results found</p><a href='' alt='reload'>reload</a></div>
             }
             {searchFilterLaunches.map((result, i) => { 
             return(
@@ -625,6 +647,7 @@ const App = () => {
                 onClick={()=>{ 
                   UpdateSelectedVehicle(SearchCores(result.core_serial, allCores));
                   setSelectedMission(result);
+
                 }}>
                 <h1>
                 {result.mission_name ? result.mission_name.length > 10 ? result.mission_name.slice(0, -result.mission_name.length + 10) : result.mission_name : null} 
@@ -646,14 +669,15 @@ const App = () => {
 
       <div className='content'>
 
-      <IosMenu className='menubtn' color={darkModeEnabled ? 'white' : 'black'} onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
+      <IosMenu className='menubtn btn' color={darkModeEnabled ? 'white' : 'white'} onClick={()=>{ setSideBarToggled(!sideBarToggled)}}/>
       {darkModeEnabled ?
-      <MdSunny className='darkbtn' color='white' onClick={()=>{ setDarkModeEnabled(!darkModeEnabled) }}/>           
+      <MdSunny className='darkbtn btn' color='white' onClick={()=>{ setDarkModeEnabled(!darkModeEnabled) }}/>           
       : 
-      <IosMoon className='darkbtn' color='black' onClick={()=>{ setDarkModeEnabled(!darkModeEnabled) }}/>           
+      <IosMoon className='darkbtn btn' color='white' onClick={()=>{ setDarkModeEnabled(!darkModeEnabled) }}/>           
       }
       <SiteLogo darkModeEnabled={darkModeEnabled} />       
 
+      {selectedVehicle.core_serial ? 
       <SelectedVehicleContainer vehiclelabelsize={selectedVehicle.core_serial ? selectedVehicle.core_serial.length > 5 ? '2.5rem' : '4rem' : '4rem'}
         darkModeEnabled={darkModeEnabled}>       
         <div className='row'>
@@ -669,7 +693,7 @@ const App = () => {
           {selectedVehicle.missions ? selectedVehicle.missions.map((result, i) => { 
           return(
             <div key={result.name + '.' + i}            
-              className={result.name === selectedMission.mission_name ? 'mission-result active' : 'mission-result'} 
+              className={result.name === selectedMission ? selectedMission.mission_name ? 'mission-result active' : 'mission-result' : 'mission-result'} 
               onClick={()=>{UpdateSelectedMission(result.name)}}>
               <h5>
               {result.name ? result.name.length > 22 ? result.name.slice(0, -result.name.length + 22) + '...' : result.name : null }
@@ -693,7 +717,9 @@ const App = () => {
         <h3><span>status: </span>{selectedVehicle.status || 'UNKNOWN'}</h3>    
         </div>
       </SelectedVehicleContainer>
+      : null }
 
+        {selectedMission ? 
       <SelectedMissionContainer darkModeEnabled={darkModeEnabled}>
         
         <div className='row'>
@@ -720,8 +746,8 @@ const App = () => {
         <div className='row bottombox'>
           {selectedMission.details ? 
         <p className='mission_description' >{selectedMission.details}</p> : null }
-        <TimelineFlat cores={filteredCores} selectedVehicle={selectedVehicle} UpdateSelectedVehicle={UpdateSelectedVehicle} darkModeEnabled={darkModeEnabled} />
         </div>
+        <TimelineFlat cores={allCores} selectedVehicle={selectedVehicle} UpdateSelectedVehicle={UpdateSelectedVehicle} darkModeEnabled={darkModeEnabled} />
         {/* {selectedMission.video_link ?  */}
         {/* <a href={selectedMission.video_link} target="_blank"> */}
         {/*   <LogoYoutube color='black'/> */}
@@ -729,6 +755,7 @@ const App = () => {
 
 
       </SelectedMissionContainer>
+        : null }
 
       {/* <Timeline launches={searchFilterLaunches} selectedMission={selectedMission} UpdateSelectedMission={UpdateSelectedMission} /> */}
 
